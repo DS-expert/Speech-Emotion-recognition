@@ -1,9 +1,10 @@
 import pandas as pd
 import numpy as np
 import librosa
-from config.config import RAVDESS
+from config.config import RAVDESS, RANDOM_STATE, TEST_SIZE
 from src.utils.logger import get_logger
 from sklearn.preprocessing import LabelEncoder
+from sklearn.model_selection import train_test_split
 logger = get_logger(__name__)
 
 def preprocessing(file_path, n_mfcc=13, desired_length=3*16000, fixed_frame=300):
@@ -92,3 +93,8 @@ def label_enocder(y):
     labelencoder = LabelEncoder()
     y_encoded = labelencoder.fit_transform(y)
     return y_encoded
+
+def train_test_split_func(X, y):
+
+    X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=TEST_SIZE, random_state=RANDOM_STATE, stratify=y)
+    return X_train, X_test, y_train, y_test
