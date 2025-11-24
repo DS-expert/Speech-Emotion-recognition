@@ -5,6 +5,7 @@ from config.config import RAVDESS, RANDOM_STATE, TEST_SIZE
 from src.utils.logger import get_logger
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
+import joblib
 logger = get_logger(__name__)
 
 def preprocessing(file_path, n_mfcc=13, desired_length=3*16000, fixed_frame=300):
@@ -98,3 +99,10 @@ def train_test_split_func(X, y):
 
     X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=TEST_SIZE, random_state=RANDOM_STATE, stratify=y)
     return X_train, X_test, y_train, y_test
+
+def save_preprocessed_data(X_train, X_test, y_train, y_test, file_path):
+
+    joblib.dump(X_train, file_path/"X_train.pkl")
+    joblib.dump(X_test, file_path/"X_test.pkl")
+    joblib.dump(y_train, file_path/"y_train.pkl")
+    joblib.dump(y_test, file_path/"y_test.pkl")
