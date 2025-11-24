@@ -45,15 +45,15 @@ def preprocessing(file_path, n_mfcc=13, desired_length=3*16000, fixed_frame=300)
     logger.info(f"delta and delta-delta extracted with {delta.shape} and {delta2.shape}")
 
     # Stack the mfcc with delta and delta-delta
-    features = np.vstack([mfcc, delta, delta2])
+    features = np.vstack([fixed_mfcc, delta, delta2])
 
     return features
 
 def load_audio_files(folder_path):
 
-    logger.info("Loading audio files from {folder_path}...")
+    logger.info(f"Loading audio files from {folder_path}...")
     audio_files = list(folder_path.rglob("*.wav"))
-    logger.info("Audio files from {folder_path} successfully loaded")
+    logger.info(f"Audio files from {folder_path} successfully loaded")
     return audio_files
 
 def extract_label(file_path):
@@ -76,7 +76,7 @@ def implement_label_extractor():
 
     audio_files = load_audio_files(RAVDESS)
     labels = [extract_label(file) for file in audio_files]
-    return labels
+    return np.array(labels)
 
 def return_features():
 
@@ -90,7 +90,7 @@ def return_features():
     
     return np.array(X)
 
-def label_enocder(y):
+def label_encoder(y):
     labelencoder = LabelEncoder()
     y_encoded = labelencoder.fit_transform(y)
     return y_encoded
@@ -106,3 +106,20 @@ def save_preprocessed_data(X_train, X_test, y_train, y_test, file_path):
     joblib.dump(X_test, file_path/"X_test.pkl")
     joblib.dump(y_train, file_path/"y_train.pkl")
     joblib.dump(y_test, file_path/"y_test.pkl")
+
+def preprocessing_pipeline():
+    """
+    Apply the all function into one function
+    """
+
+    X = return_features()
+    
+    y = implement_label_extractor()
+
+    y_encoded = label_encoder(y)
+
+    # Split into train and test
+
+    X_train, X_test, y_train, y_test = train_test_split_func(X, y_encoded)
+
+    return X_train, X_test, y_train, y_test
