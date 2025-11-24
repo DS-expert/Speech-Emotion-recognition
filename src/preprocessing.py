@@ -76,3 +76,14 @@ def implement_label_extractor():
     labels = [extract_label(file) for file in audio_files]
     return labels
 
+def return_features():
+
+    audio_files = load_audio_files(RAVDESS)
+
+    X = []
+
+    for file in audio_files:
+        feature = preprocessing(file)
+        X.append(feature)
+    
+    return np.array(X)
