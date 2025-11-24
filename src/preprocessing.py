@@ -3,7 +3,7 @@ import numpy as np
 import librosa
 from config.config import RAVDESS
 from src.utils.logger import get_logger
-
+from sklearn.preprocessing import LabelEncoder
 logger = get_logger(__name__)
 
 def preprocessing(file_path, n_mfcc=13, desired_length=3*16000, fixed_frame=300):
@@ -87,3 +87,8 @@ def return_features():
         X.append(feature)
     
     return np.array(X)
+
+def label_enocder(y):
+    labelencoder = LabelEncoder()
+    y_encoded = labelencoder.fit_transform(y)
+    return y_encoded
