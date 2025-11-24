@@ -46,3 +46,8 @@ def preprocessing(file_path, n_mfcc=13, desired_length=3*16000, fixed_frame=300)
     features = np.vstack([mfcc, delta, delta2])
 
     return features
+
+def load_audio_files(folder_path):
+
+    audio_files = list(folder_path.rglob("*.wav"))
+    return audio_files
