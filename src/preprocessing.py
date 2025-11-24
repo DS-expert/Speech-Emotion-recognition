@@ -49,7 +49,9 @@ def preprocessing(file_path, n_mfcc=13, desired_length=3*16000, fixed_frame=300)
 
 def load_audio_files(folder_path):
 
+    logger.info("Loading audio files from {folder_path}...")
     audio_files = list(folder_path.rglob("*.wav"))
+    logger.info("Audio files from {folder_path} successfully loaded")
     return audio_files
 
 def extract_label(file_path):
