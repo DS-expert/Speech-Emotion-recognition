@@ -51,3 +51,19 @@ def load_audio_files(folder_path):
 
     audio_files = list(folder_path.rglob("*.wav"))
     return audio_files
+
+def extract_label(file_path):
+    emotion_labels = {
+    '01': 'neutral',
+    '02': 'calm',
+    '03': 'happy',
+    '04': 'sad',
+    '05': 'angry',
+    '06': 'fearful',
+    '07': 'disgust',
+    '08': 'surprised'
+    }
+
+    parts = file_path.stem.split("-")
+    emotion_code = parts[2]
+    return emotion_labels[emotion_code]
