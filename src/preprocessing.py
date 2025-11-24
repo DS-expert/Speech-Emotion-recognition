@@ -69,3 +69,10 @@ def extract_label(file_path):
     parts = file_path.stem.split("-")
     emotion_code = parts[2]
     return emotion_labels[emotion_code]
+
+def implement_label_extractor():
+
+    audio_files = load_audio_files(RAVDESS)
+    labels = [extract_label(file) for file in audio_files]
+    return labels
+
