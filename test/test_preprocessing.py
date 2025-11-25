@@ -1,4 +1,5 @@
 from src.preprocessing import preprocessing
+from src.preprocessing import extract_label
 from config.config import RAVDESS
 import random
 import pandas as pd
@@ -31,3 +32,23 @@ def test_preprocessing():
 
     # Non empty check
     assert result.size > 0, "Result got empty array"
+
+def test_extract_label():
+
+    # Arrange 
+    audio_files = list(RAVDESS.rglob("*.wav"))
+    random_file_path = random.choice(audio_files)
+
+    # Act
+
+    result = extract_label(random_file_path)
+
+    # assertion
+
+    # Check str
+    assert isinstance(result, str), "The label should be in string"
+
+    # Valid emotion
+    valid_emotions = ['neutral', 'calm', 'happy', 'sad', 'angry', 'fearful', 'disgust', 'surprised']
+
+    assert result in valid_emotions, f"label {result} is not in valid emotion"
