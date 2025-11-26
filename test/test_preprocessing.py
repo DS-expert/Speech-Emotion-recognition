@@ -2,6 +2,7 @@ from src.preprocessing import preprocessing
 from src.preprocessing import extract_label
 from src.preprocessing import return_features
 from src.preprocessing import label_encoder
+from src.preprocessing import preprocessing_pipeline
 from config.config import RAVDESS
 import random
 import pandas as pd
@@ -90,3 +91,27 @@ def test_label_encoder():
 
     unique_class = df["target"].nunique()
     assert result.min() >=0 and result.max() < unique_class, "Encoded label are outside of valid range"
+
+def test_preprocessing_pipeline():
+
+    # Act 
+    X_train, X_test, y_train, y_test = preprocessing_pipeline()
+
+    # Assertion
+    
+    assert isinstance(X_train, np.ndarray), "X_train must be in numpy array"
+    assert isinstance(X_test, np.ndarray), "X_test must be in numpy array"
+    assert isinstance(y_train, np.ndarray), "y_train must be in numpy array"
+    assert isinstance(y_test, np.ndarray), "y_test must be in numpy array"
+
+    assert X_train.shape[0] == len(y_train), "X_train and y_train size mismatch"
+    assert X_test.shape[0] == len(y_test), "X_test and y_test size mismatch"
+    
+    n_mfcc = 13
+
+    assert X_train.shape[1] == n_mfcc*3, f"Expected 39 feature rows (Mfcc+delta+delta2), got {X_train.shape[1]}"
+
+    assert X_train.shape[0] > 0, "X_train array is empty"
+    assert X_test.shape[0] > 0, "X_test array is empty"
+
+    assert len(np.unique(y_train)) > 1, "Label should contain multiple classes"
