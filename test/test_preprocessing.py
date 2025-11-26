@@ -1,6 +1,7 @@
 from src.preprocessing import preprocessing
 from src.preprocessing import extract_label
 from src.preprocessing import return_features
+from src.preprocessing import label_encoder
 from config.config import RAVDESS
 import random
 import pandas as pd
@@ -67,3 +68,25 @@ def test_return_features():
     assert np.size(result) > 0, "Array is empty!"
 
     assert np.isfinite(result).all(), "Array have nan or Inf Values"
+
+def test_label_encoder():
+
+    # Arrange
+
+    df = pd.DataFrame({
+        "target": ["sad", "happy", "digust"]
+    })
+
+    # Act
+    result = label_encoder(df)
+
+    # Assertion
+
+    assert isinstance(result, np.ndarray), "Encoder result is not in numpy array"
+
+    assert len(result) == len(df), "Encoded array length must match to input length"
+
+    assert result.dtype == np.int64, "Encoded label must be in integer"
+
+    unique_class = df["target"].nunique()
+    assert result.min() >=0 and result.max() < unique_class, "Encoded label are outside of valid range"
