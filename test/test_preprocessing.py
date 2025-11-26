@@ -1,5 +1,6 @@
 from src.preprocessing import preprocessing
 from src.preprocessing import extract_label
+from src.preprocessing import return_features
 from config.config import RAVDESS
 import random
 import pandas as pd
@@ -52,3 +53,17 @@ def test_extract_label():
     valid_emotions = ['neutral', 'calm', 'happy', 'sad', 'angry', 'fearful', 'disgust', 'surprised']
 
     assert result in valid_emotions, f"label {result} is not in valid emotion"
+
+def test_return_features():
+
+    # Act
+    result = return_features()
+
+    # Assertion
+
+    # Should be numpy array
+    assert isinstance(result, np.ndarray), "Feature should be in numpy array"
+
+    assert np.size(result) > 0, "Array is empty!"
+
+    assert np.isfinite(result).all(), "Array have nan or Inf Values"
