@@ -5,6 +5,7 @@ from config.config import RAVDESS, RANDOM_STATE, TEST_SIZE
 from src.utils.logger import get_logger
 from sklearn.preprocessing import LabelEncoder
 from sklearn.model_selection import train_test_split
+from tqdm import tqdm
 import joblib
 logger = get_logger(__name__)
 
@@ -75,7 +76,7 @@ def extract_label(file_path):
 def implement_label_extractor():
 
     audio_files = load_audio_files(RAVDESS)
-    labels = [extract_label(file) for file in audio_files]
+    labels = [extract_label(file) for file in tqdm(audio_files, desc="Extracting the label")]
     return np.array(labels)
 
 def return_features():
@@ -84,7 +85,7 @@ def return_features():
 
     X = []
 
-    for file in audio_files:
+    for file in tqdm(audio_files, desc="Extracting the Features", unit="file"):
         feature = preprocessing(file)
         X.append(feature)
     
@@ -121,5 +122,6 @@ def preprocessing_pipeline():
     # Split into train and test
 
     X_train, X_test, y_train, y_test = train_test_split_func(X, y_encoded)
+    logger.info("Preprocessing Pipeline complete succesfully")
 
     return X_train, X_test, y_train, y_test
