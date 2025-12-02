@@ -16,5 +16,10 @@ RESULT_DIR = BASE_DIR / "results"
 
 RAVDESS = RAW_DATA / "RAVDESS"
 
+X_TRAIN = PROCESSED_DATA / "X_train.pkl"
+X_TEST = PROCESSED_DATA / "X_test.pkl"
+Y_TRAIN = PROCESSED_DATA / "y_train.pkl"
+Y_TEST = PROCESSED_DATA / "y_test.pkl"
+
 RANDOM_STATE = 42
 TEST_SIZE = 0.2
