@@ -10,7 +10,7 @@ RAW_DATA = DATA_DIR / "raw"
 
 PROCESSED_DATA = DATA_DIR / "preprocessed"
 
-RESULT_DIR = BASE_DIR / "results"
+RESULT_DIR = BASE_DIR / "result"
 
 # RAVDESS DATA PATH
 
