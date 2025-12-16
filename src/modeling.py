@@ -31,3 +31,29 @@ def dataset_to_tensor(X_train, y_train, X_test, y_test):
     X_test_tensor = X_test_tensor.unsqueeze(1)
 
     return X_train_tensor, y_train_tensor, X_test_tensor, y_test_tensor
+
+
+def create_dataloaders(X_train_tensor, y_train_tensor, X_test_tensor, y_test_tensor, batch_size=32, shuffle=False):
+    """
+    create dataloaders for training and testing
+
+    **params:
+        X_train_tesnor: training features tensor
+        X_test_tensor: testing_features_tensor
+        y_train_tensor: training labels tensor
+        y_test_tensor: testing labels tensor
+        batch_size: batch size for dataloader
+        shuffle: Whether to shuffle the data or not
+    
+    return: 
+        train_loader: DataLoader for training data
+        test_loader: DataLoader for testing data
+    """
+
+    train_dataset = TensorDataset(X_train_tensor, y_train_tensor)
+    test_dataset = TensorDataset(X_test_tensor, y_test_tensor)
+
+    train_loader = DataLoader(train_dataset, batch_size=batch_size, shuffle=shuffle)
+    test_loader = DataLoader(test_dataset, batch_size=batch_size)
+
+    return train_loader, test_loader
