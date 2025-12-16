@@ -74,3 +74,38 @@ def flat_data(X_train, X_test):
     X_test_flat = X_test.reshape(X_test.shape[0], -1)
 
     return X_train_flat, X_test_flat
+
+class CNNModel(nn.Module):
+
+    def __init__(self, num_classes=8, kernel_size=3, padding=1, dropout_rate=0.3):
+
+        super().__init__()
+
+        self.conv_layers = nn.Sequential(
+
+            nn.Conv2d(1, 32, kernel_size=kernel_size, padding=padding),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
+
+            nn.Conv2d(32, 64, kernel_size=kernel_size, padding=padding),
+            nn.ReLU(),
+            nn.MaxPool2d(2),
+
+            nn.Conv2d(64, 128, kernel_size=kernel_size, padding=padding),
+            nn.ReLU(),
+            nn.MaxPool2d(2)
+        )
+
+        self.fc_layer = nn.Sequential(
+            nn.Linear(128 * 4 * 37, 256),
+            nn.ReLU(),
+            nn.Dropout(dropout_rate),
+            nn.Linear(256, num_classes)
+        )
+    
+    def forward(self, X):
+        X = self.conv_layers(X)
+        X = torch.flatten(X, 1)
+        X = self.fc_layer(X)
+
+        return X    
