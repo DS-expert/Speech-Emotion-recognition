@@ -5,6 +5,7 @@ import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
 from xgboost import XGBClassifier
 from sklearn.metrics import accuracy_score, roc_auc_score
+import joblib
 
 ## CNN
 
@@ -227,3 +228,19 @@ def evalution_loop(model, train_dataloader, test_dataloader, loss_func, optimize
                   f"Test Loss: {avg_test_loss:.4f} | Test Accuracy : {avg_test_acc:.2f}%")
 
     return train_losses, test_losses, train_accuracy_score, test_accuracy_score
+
+def save_model(model, path, model_name, deep_learning_model= False):
+    """
+    Save the trained model to the specified path
+
+    :params:
+        model: trained model
+        path: path to save the model
+        model_name: name of the model file
+        deep_learning_model: whether the model is a deep learning model or not
+    """
+
+    if deep_learning_model:
+        torch.save(model.state_dict(), f"{path}/{model_name}.h5")
+    else:
+        joblib.dump(model, f"{path}/{model_name}.pkl")
