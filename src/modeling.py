@@ -108,4 +108,25 @@ class CNNModel(nn.Module):
         X = torch.flatten(X, 1)
         X = self.fc_layer(X)
 
-        return X    
+        return X
+
+def XGB_model(X_train, y_train, X_test):
+    """
+    XGBoost Model training on training features and labels
+    
+    :params -> 
+        X_train: training features
+        y_train: training labels
+    :return:
+        model: trained XGBoost model
+    """
+
+    xgb = XGBClassifier()
+
+    xgb.fit(X_train, y_train)
+
+    # Predict
+    y_pred = xgb.predict(X_test)
+
+    return xgb, y_pred
+
