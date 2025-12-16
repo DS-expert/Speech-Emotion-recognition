@@ -57,3 +57,20 @@ def create_dataloaders(X_train_tensor, y_train_tensor, X_test_tensor, y_test_ten
     test_loader = DataLoader(test_dataset, batch_size=batch_size)
 
     return train_loader, test_loader
+
+def flat_data(X_train, X_test):
+    """
+    Flatten the data for classic model
+
+    **params:
+        X_train: training features
+        X_test: testing features
+    return:
+        X_train_flat: flattened training features
+        X_test_flat: flattened testing features
+    """
+
+    X_train_flat = X_train.reshape(X_train.shape[0], -1)
+    X_test_flat = X_test.reshape(X_test.shape[0], -1)
+
+    return X_train_flat, X_test_flat
