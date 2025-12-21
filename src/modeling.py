@@ -212,7 +212,7 @@ def evalution_loop(model, train_dataloader, test_dataloader, loss_func, optimize
 
         # Calculate average losses and accuracies
         avg_train_loss = total_train_loss / total_train_samples
-        avg_test_loss = total_train_loss / total_test_samples
+        avg_test_loss = total_test_loss / total_test_samples
 
         avg_train_acc = total_train_correct / total_train_samples * 100
         avg_test_acc = total_test_correct / total_test_samples * 100
