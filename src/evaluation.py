@@ -2,7 +2,7 @@ import torch
 import torch.nn as nn
 from torch.utils.data import DataLoader, TensorDataset
 from tqdm import tqdm
-from sklearn.metrics import accuracy_score
+from sklearn.metrics import accuracy_score, roc_auc_score, classification_report
 
 
 def evalution_loop(model, train_dataloader, test_dataloader, loss_func, optimizer, epochs, random_state=42, device='cpu'):
@@ -101,3 +101,27 @@ def evalution_loop(model, train_dataloader, test_dataloader, loss_func, optimize
                   f"Test Loss: {avg_test_loss:.4f} | Test Accuracy : {avg_test_acc:.2f}%")
 
     return train_losses, test_losses, train_accuracy_score, test_accuracy_score
+
+
+def evaluate_model(model, X_test, y_test):
+    """
+    Evaluate the given model on the test dataset and return accuracy, ROC AUC Score and classification report.
+
+    Parameters:
+    model: Trained machine learning model
+    X_test: Feature of the test dataset
+    y_test: True labels of the test dataset
+
+    *returns: accuracy_score, roc_auc_score, classification_report
+    """
+    y_pred = model.predict(X_test)
+
+    acc_score = accuracy_score(y_test, y_pred)
+    roc = roc_auc_score(y_test, y_pred)
+    cr = classification_report(y_test, y_pred)
+
+    return {
+        "Accuracy Score": acc_score,
+        "ROC AUC Score ": roc,
+        "Classification Report" : cr
+    }
