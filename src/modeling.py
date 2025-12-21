@@ -29,7 +29,7 @@ def dataset_to_tensor(X_train, y_train, X_test, y_test):
     y_test_tensor = torch.from_numpy(y_test).long()
 
     # Unsqueeze the X_train and X_test 
-    X_train_tesnor = X_train_tensor.unsqueeze(1)
+    X_train_tensor = X_train_tensor.unsqueeze(1)
     X_test_tensor = X_test_tensor.unsqueeze(1)
 
     return X_train_tensor, y_train_tensor, X_test_tensor, y_test_tensor
